@@ -11,11 +11,15 @@ public:
     DrawingCanvas(wxWindow *parent, wxWindowID id, const wxPoint &pos, const wxSize &size);
     virtual ~DrawingCanvas() noexcept {}
 
+    void ShowSaveDialog();
+
     int currentWidth{1};
     wxColour currentColor{*wxBLACK};
 
 private:
     void OnPaint(wxPaintEvent &);
+    void DrawOnContext(wxGraphicsContext *gc);
+
     void OnMouseDown(wxMouseEvent &);
     void OnMouseMove(wxMouseEvent &);
     void OnMouseUp(wxMouseEvent &);

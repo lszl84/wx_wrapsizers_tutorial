@@ -118,6 +118,9 @@ wxPanel *MyFrame::BuildControlsPanel(wxWindow *parent)
 
     controlsPanel->SetSizer(mainSizer);
 
+    button->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+                 { canvas->ShowSaveDialog(); });
+
     return controlsPanel;
 }
 
