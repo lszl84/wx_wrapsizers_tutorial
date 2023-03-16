@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/wrapsizer.h>
 
 #include <string>
 #include <vector>
@@ -66,7 +67,7 @@ wxPanel *MyFrame::BuildControlsPanel(wxWindow *parent)
     auto text = new wxStaticText(controlsPanel, wxID_ANY, "Colors");
     mainSizer->Add(text, 0, wxALL, FromDIP(5));
 
-    auto colorPaneSizer = new wxBoxSizer(wxHORIZONTAL);
+    auto colorPaneSizer = new wxWrapSizer(wxHORIZONTAL);
     SetupColorPanes(controlsPanel, colorPaneSizer);
 
     mainSizer->Add(colorPaneSizer, 0, wxALL, FromDIP(5));
