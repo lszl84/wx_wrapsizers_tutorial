@@ -72,6 +72,12 @@ wxPanel *MyFrame::BuildControlsPanel(wxWindow *parent)
 
     mainSizer->Add(colorPaneSizer, 0, wxALL, FromDIP(5));
 
+    auto button = new wxButton(controlsPanel, wxID_ANY, "Save As...");
+
+    mainSizer->AddStretchSpacer();
+    mainSizer->Add(button, 0, wxALL, FromDIP(5));
+    mainSizer->AddSpacer(FromDIP(5));
+
     controlsPanel->SetSizer(mainSizer);
 
     return controlsPanel;
