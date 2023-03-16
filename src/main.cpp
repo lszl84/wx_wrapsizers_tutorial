@@ -8,6 +8,8 @@
 #include "colorpane.h"
 #include "pensizepane.h"
 
+#include "drawingcanvas.h"
+
 class MyApp : public wxApp
 {
 public:
@@ -29,6 +31,8 @@ private:
 
     std::vector<ColorPane *> colorPanes{};
     std::vector<PenSizePane *> penPanes{};
+
+    DrawingCanvas *canvas;
 
     const std::vector<std::string> niceColors = {"#000000", "#ffffff", "#fd7f6f",
                                                  "#7eb0d5", "#b2e061", "#bd7ebe",
@@ -116,10 +120,9 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
     splitter->SetMinimumPaneSize(FromDIP(150));
 
     auto controlsPanel = BuildControlsPanel(splitter);
-    auto canvasPanel = new wxPanel(splitter, wxID_ANY);
-    canvasPanel->SetBackgroundColour(wxColour("#ffffff"));
+    canvas = new DrawingCanvas(splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 
-    splitter->SplitVertically(controlsPanel, canvasPanel);
+    splitter->SplitVertically(controlsPanel, canvas);
     splitter->SetSashPosition(FromDIP(220));
 
     this->SetSize(FromDIP(800), FromDIP(500));
