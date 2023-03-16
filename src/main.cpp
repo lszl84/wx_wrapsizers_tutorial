@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 #include <wx/wrapsizer.h>
+#include <wx/splitter.h>
 
 #include <string>
 #include <vector>
@@ -110,5 +111,17 @@ wxPanel *MyFrame::BuildControlsPanel(wxWindow *parent)
 MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
     : wxFrame(nullptr, wxID_ANY, title, pos, size)
 {
-    BuildControlsPanel(this);
+    wxSplitterWindow *splitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_BORDER | wxSP_LIVE_UPDATE);
+
+    splitter->SetMinimumPaneSize(FromDIP(150));
+
+    auto controlsPanel = BuildControlsPanel(splitter);
+    auto canvasPanel = new wxPanel(splitter, wxID_ANY);
+    canvasPanel->SetBackgroundColour(wxColour("#ffffff"));
+
+    splitter->SplitVertically(controlsPanel, canvasPanel);
+    splitter->SetSashPosition(FromDIP(220));
+
+    this->SetSize(FromDIP(800), FromDIP(500));
+    this->SetMinSize({FromDIP(400), FromDIP(200)});
 }
