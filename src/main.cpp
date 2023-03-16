@@ -57,7 +57,8 @@ void MyFrame::SetupColorPanes(wxWindow *parent, wxSizer *sizer)
 
 wxPanel *MyFrame::BuildControlsPanel(wxWindow *parent)
 {
-    auto controlsPanel = new wxPanel(parent, wxID_ANY);
+    auto controlsPanel = new wxScrolled<wxPanel>(parent, wxID_ANY);
+    controlsPanel->SetScrollRate(0, FromDIP(10));
 
     bool isDark = wxSystemSettings::GetAppearance().IsDark();
     controlsPanel->SetBackgroundColour(wxColour(isDark ? darkBackground : lightBackground));
