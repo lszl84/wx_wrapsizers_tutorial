@@ -29,6 +29,9 @@ private:
     void SetupColorPanes(wxWindow *parent, wxSizer *sizer);
     void SetupPenPanes(wxWindow *parent, wxSizer *sizer);
 
+    void SelectColorPane(ColorPane *pane);
+    void SelectPenPane(PenSizePane *pane);
+
     std::vector<ColorPane *> colorPanes{};
     std::vector<PenSizePane *> penPanes{};
 
@@ -60,6 +63,9 @@ void MyFrame::SetupColorPanes(wxWindow *parent, wxSizer *sizer)
     {
         auto colorPane = new ColorPane(parent, wxID_ANY, wxColour(color));
 
+        colorPane->Bind(wxEVT_LEFT_DOWN, [this, colorPane](wxMouseEvent &event)
+                        { SelectColorPane(colorPane); });
+
         colorPanes.push_back(colorPane);
         sizer->Add(colorPane, 0, wxRIGHT | wxBOTTOM, FromDIP(5));
     }
@@ -70,6 +76,9 @@ void MyFrame::SetupPenPanes(wxWindow *parent, wxSizer *sizer)
     for (int i = 0; i < penCount; i++)
     {
         auto penPane = new PenSizePane(parent, wxID_ANY, i * FromDIP(4) + FromDIP(1));
+
+        penPane->Bind(wxEVT_LEFT_DOWN, [this, penPane](wxMouseEvent &event)
+                      { SelectPenPane(penPane); });
 
         penPanes.push_back(penPane);
         sizer->Add(penPane, 0, wxRIGHT | wxBOTTOM, FromDIP(5));
@@ -127,4 +136,29 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
 
     this->SetSize(FromDIP(800), FromDIP(500));
     this->SetMinSize({FromDIP(400), FromDIP(200)});
+
+    SelectColorPane(colorPanes[0]);
+    SelectPenPane(penPanes[0]);
+}
+
+void MyFrame::SelectColorPane(ColorPane *pane)
+{
+    for (auto colorPane : colorPanes)
+    {
+        colorPane->selected = (colorPane == pane);
+        colorPane->Refresh();
+    }
+
+    canvas->currentColor = pane->color;
+}
+
+void MyFrame::SelectPenPane(PenSizePane *pane)
+{
+    for (auto penPane : penPanes)
+    {
+        penPane->selected = (penPane == pane);
+        penPane->Refresh();
+    }
+
+    canvas->currentWidth = pane->penWidth;
 }
